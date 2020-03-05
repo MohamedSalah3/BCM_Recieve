@@ -184,7 +184,7 @@ void UartTransmitInterrupt(void)
 gU8_Data_transmited is shared with void UartTransmitdataInt(uint8_t data_to_transmit)
 that changes its data
 */
-//UDR=u8_DATA;
+UDR=u8_DATA;
 //G_interrupt_Enable();
 //u8_DATA ^=0xFF;
 }
