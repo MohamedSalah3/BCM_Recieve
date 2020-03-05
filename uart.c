@@ -9,9 +9,11 @@
 #include "uartconfig.h"
 #include "uart.h"
 #include "registers.h"
-volatile uint8_t u8_Notification_TX=0;
+/*volatile uint8_t u8_Notification_TX=0;
 volatile uint8_t gU8_Data_Recieved=0;
 volatile uint8_t gU8_Data_transmited=0;
+*/
+extern volatile uint8_t u8_DATA;
 uint8_t BufferRequested[Buffer_Size];
 volatile uint8_t u8_index=0;
 volatile uint8_t buf_is_full=0;
@@ -166,15 +168,15 @@ void UartRecieveInterrupt(void)
 //  buf_is_full=1;
 //  u16_index=0;
 //      }
-if(u8_index<Buffer_Size)
+/*if(u8_index<Buffer_Size)
 {
-  gU8_Data_Recieved=UDR;
-  BufferRequested[u8_index]=gU8_Data_Recieved;
+  */u8_DATA=UDR;/*
+  BufferRequested[u8_index]=u8_DATA;
   u8_index++;
 }
   else{
     u8_index=0;
-      }
+  }*/
 }
 void UartTransmitInterrupt(void)
 {
@@ -182,12 +184,13 @@ void UartTransmitInterrupt(void)
 gU8_Data_transmited is shared with void UartTransmitdataInt(uint8_t data_to_transmit)
 that changes its data
 */
-UDR=gU8_Data_transmited;
-
+//UDR=u8_DATA;
+//G_interrupt_Enable();
+//u8_DATA ^=0xFF;
 }
 void UartTransmitdataInt(uint8_t data_to_transmit)
 {
-	  gU8_Data_transmited=data_to_transmit;
+	  u8_DATA=data_to_transmit;
 }
 
 void Uart_tryansmitfirstbyte(uint8_t data)

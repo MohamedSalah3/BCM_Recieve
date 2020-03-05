@@ -8,9 +8,12 @@
 #include "SPI.h"
 #include "registers.h"
 #include "gpio.h"
-
+extern volatile uint8_t u8_DATA;
+extern volatile uint8_t u8_interrupt_spi;
+/*
 volatile uint8_t data_sent;
 extern volatile uint8_t gU8_Data_Recieved;
+*/
 extern ST_SPI_Configuration SPI_Config ;
 void SPI_Init()
 {
@@ -20,22 +23,26 @@ void SPI_Init()
 	/********************Enable SPI Interrupt ******************/
 
 	//SPCR = SPCR | (SPI_INT_ENABLE<<SPIE);
-	SPCR = gConfig->MASTER_SLAVE_MODE | gConfig->DATA_ORDER
-			  | gConfig->OPERATING_LEVEL | gConfig->PRESCALAR
-			 | gConfig->SAMPLING_EDGE;
+	SPCR |= (gConfig->MASTER_SLAVE_MODE) | (gConfig->DATA_ORDER)
+			  | (gConfig->OPERATING_LEVEL) | (gConfig->PRESCALAR)
+			 | (gConfig->SAMPLING_EDGE) | (gConfig-> INT_ENABLE) ;
 
-	SPSR |= gConfig->DOUBLE_SPEED;
+	SPSR |= (gConfig->DOUBLE_SPEED);
 			 gpioPinDirection(GPIOB, BIT4 | BIT5 | BIT7, OUTPUT);
 			 gpioPinDirection(GPIOB, BIT6, INPUT);
 
-		SPCR |=  gConfig->ENABLE;
+
+		SPCR |=  (gConfig->ENABLE);
 
 
 
 }
 void SPI_Transciever_INT(void)
 {
-	gU8_Data_Recieved=SPDR;
+	u8_DATA=SPDR;
+//SPDR=u8_DATA;
+	Uart_tryansmitfirstbyte(u8_DATA);
+	u8_interrupt_spi=1;
 }
 void  SPI_Send(uint8_t u8_data)
 {

@@ -11,6 +11,7 @@
 #include "uartconfig.h"
 #include "registers.h"
 #include "std_types.h"
+#include "Interrupts.h"
 #define Buffer_Size 10
 #define SPIE  7
 #define TXCIE 6
