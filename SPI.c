@@ -41,7 +41,7 @@ void SPI_Transciever_INT(void)
 {
 	u8_DATA=SPDR;
 //SPDR=u8_DATA;
-if(u8_interrupt_spi==0)
+//if(u8_interrupt_spi==0)
 	Uart_tryansmitfirstbyte(u8_DATA);
 	u8_interrupt_spi=1;
 }

@@ -11,6 +11,9 @@
 #include "BCM_Config.h"
 
 
+ERROR_STATUS BCM_Init (const BCM_ConfigType * ConfigPtr );
+
+ERROR_STATUS BCM_DeInit (const BCM_ConfigType * ConfigPtr);
 
 
 #endif /* BCM_RECIEVE_H_ */
